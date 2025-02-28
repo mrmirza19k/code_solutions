@@ -1,0 +1,3378 @@
+/**
+  Problem : Anagram
+  Link    : https://www.hackerearth.com/practice/basic-programming/input-output/basics-of-input-output/practice-problems/algorithm/anagrams-651/
+  Author  : Jayson Alpe (Wolf Syntax)
+**/
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <cmath>
+#include <map>
+#include <set>
+//Accepted
+using namespace std;
+
+int main(){
+
+	int t; string a,b; cin >> t;
+	
+	while(t--){
+		cin >> a >> b;
+
+		map<char,int> counts;
+		set<char> del;
+		int a_len = a.length(), b_len = b.length();
+		
+		for(int i = 0; i < a.length(); i++){
+			for(int j = 0; j < b.length(); j++){
+				if(a[i] == b[j]) {
+					a_len--;
+					b_len--;
+					b.erase(j,1);
+					break;
+				}
+			}
+		}
+		cout << (a_len + b_len) << endl;
+	}
+	
+	return 0;
+}
+array_insert.cpp
+#include <iostream>
+#include <cstdio>
+/**
+	Problem	: Array Insert
+	Link	: https://www.hackerearth.com/practice/basic-programming/implementation/basics-of-implementation/practice-problems/algorithm/array-insert/
+	Verdict	: Accepted
+	Author	: Wolf Syntax
+**/
+using namespace std;
+int main(){
+	
+	long int n, q; scanf("%ld%ld",&n,&q);
+	long int arr[n];
+	for(int i = 0; i < n; i++) scanf("%ld",&arr[i]);
+	long int id, key, val;
+	for(int i = 0; i < q; i++){
+		scanf("%ld%ld%ld",&id,&key,&val);
+		if(id == 1) arr[key] = val;
+		else{
+			long int sum = 0;
+			for(int i = key; i <= val; i++) {
+				sum += arr[i];
+			}
+			printf("%ld\n",sum);
+		}
+	}
+
+	return 0;
+}
+array_sum.cpp
+#include <iostream>
+#include <cstdio>
+#define lli long long int
+
+using namespace std;
+/**
+	Problem	:	Array Sum
+	Link	:	https://www.hackerearth.com/practice/basic-programming/implementation/basics-of-implementation/practice-problems/algorithm/array-sum-2-725368ac/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+
+int main(){
+
+	lli n, sum; 
+	while(cin >> n){
+		lli arr[n]; sum = 0;
+		for(int i = 0; i < n; i++){
+			cin >> arr[i];
+			sum += (long long int)(arr[i]);
+		}
+		cout << (long long int)sum << endl;
+	}
+	return 0;
+}
+ascii_value.cpp
+#include <iostream>
+//Accepted
+using namespace std;
+/**
+  Problem : ASCII Value
+  Link    : https://www.hackerearth.com/practice/basic-programming/input-output/basics-of-input-output/practice-problems/algorithm/ascii-value/
+  Author  : Jayson Alpe (Wolf Syntax)
+**/
+int main(){
+	char c;
+	while(cin >> c){
+		cout << int(c) << endl;
+	}
+	return 0;
+}
+biased_chandan.cpp
+#include <cstdio>
+#include <stack>
+
+using namespace std;
+
+int main(){
+	
+	int t, total_score = 0, score; scanf("%d",&t);
+	stack<int> chandan;
+	
+	while(t--){
+		scanf("%d",&score);
+		if(score > 0) {chandan.push(score); total_score += score;}
+		else{
+			if(!chandan.empty()){
+				total_score -= chandan.top(); 
+				chandan.pop();
+			}
+		}
+	}
+    printf("%d\n",total_score);
+    return 0;
+}
+binary_queries.cpp
+#include <cstdio>
+#include <bitset>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+/**	
+	Problem	: 	Binary Queries
+	Link	:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/algorithm/range-query-2/description/
+	Verdict	:	Accepted
+	Autor	:	Wolf Syntax
+**/
+char BIT[1000000];
+void flip(int n){
+	BIT[n] = (BIT[n] == '1' ? '0' : '1');
+}
+
+int main(){
+	
+	int n, q, l, r, x; scanf("%d%d",&n,&q); BIT[n] = '\0';
+	
+	for(int i = 0; i < n; i++) scanf(" %c",&BIT[i]);
+	for(int i = 0; i < q; i++){
+		scanf("%d %d",&x,&l);
+		if(x == 1) flip(l-1);
+		else {
+			scanf("%d",&r);
+			
+			/**
+			    BIT[r-1] == '1' => Binary Queries Editorial
+			**/
+			if(BIT[r-1] == '1') printf("ODD\n");
+			else printf("EVEN\n");
+		}
+	}
+	return 0;
+}
+bishu_soldiers.cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstdio>
+
+using namespace std;
+/**
+	Problem		:	Bishu and Soldiers
+	Link		:	https://www.hackerearth.com/practice/algorithms/searching/binary-search/practice-problems/algorithm/bishu-and-soldiers/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+int main(){
+
+	int n,t; scanf("%d",&n);
+	vector<int> binary(n);
+	vector<int> defeat(12000);
+	vector<int> total_damage(1200);
+	for(int i = 0; i < n; i++) scanf("%d ",&binary[i]);
+	
+	sort(binary.begin(),binary.end());
+	for(int i = 1; i <= 10000; i++){
+		for(int j = 0; j < n; j++){
+			
+			if(binary[j] <= i){ 
+				total_damage[i] += binary[j];
+				defeat[i]++;
+			}
+		}
+		//defeat[i] += defeat[i-1];
+	}
+	
+	cin >> n;
+	for(int i = 0; i < n; i++){
+		scanf("%d",&t);
+		cout << defeat[t] << ' ' << total_damage[t] << endl;
+	}
+	return 0;
+}
+bmi.cpp
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+/**
+  ACM - PNPC
+  - BMI
+**/
+int main() {
+    int w, h, bmi = 0;
+	cin >> w >> h;
+	bmi = w / (h*h);
+	
+	cout << (bmi >= 25 ? "GO ON A DIET\n" : "YOU ARE TOO THIN\n");
+	
+    return 0;
+}
+bob_and_bomb.cpp
+#include <iostream>
+#include <algorithm>
+#include <cstdio>
+#include <cstring>
+#include <string>
+/**
+	Problem	:	Bob and Bombs
+	Link	:	https://www.hackerearth.com/practice/basic-programming/implementation/basics-of-implementation/practice-problems/algorithm/bob-and-bombs-cake-walk/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+
+	int t, len; cin >> t;
+	while(t--){
+		
+		string game; cin >> game;
+		size_t pos = 0; len = game.length();
+		
+		if(game[pos] == 'B'){
+			if(len >= 2 && game[pos+1] == 'W') game[pos+1]='*';
+			if(len >= 3 && game[pos+1] == 'W') game[pos+2]='*';
+		}
+		
+		if(game[len-1] == 'B'){
+			
+			if(len >= 2 && game[len-1] == 'W') game[len-2] = '*'; 
+			if(len >= 3 && game[len-1] == 'W') game[len-3] = '*'; 
+		}
+		
+		while((pos = game.find('B',pos)) != string::npos){
+			if(pos >= 1 && len > 1 && game[pos-1] == 'W')
+				game[pos-1] = '*';
+			if(pos >= 2 && len > 2 && game[pos-2] == 'W')
+				game[pos-2] = '*';
+			if(pos+1 < len && game[pos+1] == 'W'){
+				game[pos+1] = '*';
+			}
+			if(pos+2 < len && game[pos+2] == 'W'){
+				game[pos+2] = '*';
+			}
+			pos ++;
+		}
+
+		cout << count(game.begin(),game.end(),'*') << endl;
+		
+	}
+
+	return 0;
+}
+bst_distinct_count.cpp
+#include <cstdio>
+#include <set>
+#define ll long long int
+
+using namespace std;
+/*
+	Problem	:	Distinct Count
+	Link	:	
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+*/
+int main(){
+
+	int t,x,n; scanf("%d",&t);
+	while(t--){
+		scanf("%d %d",&n,&x); ll tmp;
+		set<ll> distinct;
+		for(int i = 0; i < n; i++){
+			scanf("%lld",&tmp); distinct.insert(tmp);
+		}
+		
+		if(distinct.size() == x) printf("Good\n");
+		else
+			printf("%s\n",(distinct.size() < x ? "Bad" : "Average"));
+		
+	}
+	
+	
+	return 0;
+}
+bst_monk_and_cursed_tree.cpp
+#include <cstdio>
+#include <algorithm>
+#define ul unsigned long long int
+/**
+  
+  Problem : Monk and Cursed Tree
+  Link    : https://www.hackerearth.com/practice/data-structures/trees/binary-search-tree/practice-problems/algorithm/monk-and-cursed-tree/
+  Verdict : Accepted
+  Author  : Wolf Syntax
+  
+**/
+
+using namespace std;
+
+struct Node {
+
+	ul data;
+	Node *left,*right;
+	
+};
+
+Node*build(ul d){
+	
+	Node*nodes = new Node();
+	nodes->data = d;
+	nodes->left = nodes -> right = NULL;
+	
+	return nodes;
+	
+}
+
+Node*update(Node*ptr, ul val){
+	
+	if(ptr == NULL)
+		return build(val);
+		
+	if(val <= ptr->data){	
+		ptr->left = update(ptr->left,val);
+	}else{
+		ptr->right = update(ptr->right,val);
+	}
+	
+	return ptr;
+
+}
+
+ul maxelpath(Node*ptr,ul x){
+	Node *node = ptr;
+	ul mx = 0;
+	
+	while(node->data != x){
+		
+		if(node->data > x){
+			mx = max(mx,node->data);
+			node = node->left;
+		}else{
+			mx = max(mx,node->data);
+			node = node->right;
+		}
+	}
+	
+	return max(mx,x);
+
+}
+
+ul maximumElement(Node*root,ul start, ul stop){
+	
+	Node * ptr = root;
+	
+	while((start < ptr->data && stop < ptr->data) || (start > ptr->data && stop > ptr->data)){
+		if(start < ptr->data && stop < ptr->data) ptr = ptr->left;
+		else if(start > ptr->data && stop > ptr->data) ptr = ptr->right;
+	}
+	
+	return max(maxelpath(ptr,start),maxelpath(ptr,stop));
+	
+}
+
+int main(){
+	
+	ul n, tmp, x, y; scanf("%lld",&n);
+	
+	Node * root = NULL; scanf("%lld",&tmp);
+	SIZE = 0;
+	root = update(root,tmp);
+	
+	for(ul i = 1; i < n; i++){
+		scanf("%lld",&tmp);
+		update(root,tmp);
+	}
+	
+	scanf("%lld %lld",&x,&y);
+		
+	printf("%lld\n",maximumElement(root,x,y));
+	
+	return 0;
+}
+bst_monk_and_his_friend.cpp
+#include <cstdio>
+#include <set>
+
+#define ll long long int
+/*
+	Problem	:	Monk and his friend
+	Link	:	https://www.hackerearth.com/practice/data-structures/trees/binary-search-tree/practice-problems/algorithm/monk-and-his-friends/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+*/
+using namespace std;
+
+int main(){
+
+	int t, n, m;
+	
+	scanf("%d",&t);
+	while(t--){
+		scanf("%d %d",&n,&m); ll tmp;
+		set<ll> monk;
+		for(int i = 0; i < n; i++){
+			scanf("%lld",&tmp);
+			monk.insert(tmp);
+				
+		}
+		
+		for(int i = 0; i < m; i++){
+			scanf("%lld",&tmp);
+			if(monk.count(tmp) > 0){
+				printf("YES\n");
+			} else {
+				monk.insert(tmp);
+				printf("NO\n");
+			}
+		}
+		
+	}
+
+	return 0;
+}
+bst_monk_watching_fight.cpp
+#include <cstdio>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+int max_height;
+
+struct Node {
+
+	int data;
+	Node *left,*right;
+	
+};
+
+Node*build(int d){
+	
+	Node*nodes = new Node();
+	nodes->data = d;
+	nodes->left = nodes -> right = NULL;
+	
+	return nodes;
+	
+}
+
+Node*update(Node*ptr, int val){
+	
+	if(ptr == NULL)
+		return build(val);
+		
+	if(val <= ptr->data){	
+		ptr->left = update(ptr->left,val);
+	}else{
+		ptr->right = update(ptr->right,val);
+	}
+	
+	return ptr;
+
+}
+
+int getHeight(Node*ptr){
+	if(ptr == NULL)
+		return 0;
+	int left_height = getHeight(ptr->left);
+	int right_height = getHeight(ptr->right);
+	
+	return 1 + max(left_height,right_height);
+
+}
+
+int main(){
+	
+	int n, tmp; scanf("%d",&n);
+	
+	Node * root = NULL; scanf("%d",&tmp);
+	
+	root = update(root,tmp);
+	
+	for(int i = 1; i < n; i++){
+		scanf("%d",&tmp);
+		update(root,tmp);
+	}
+	
+	printf("%d\n",getHeight(root));
+	
+	return 0;
+}
+caesar_cipher.cpp
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <set>
+
+/**
+	Problem		:	Caesar Cipher
+	Link		:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/caesars-cipher-1/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	int q; scanf("%d",&q);
+	while(q--){
+		string a, b;
+		cin >> a >> b;
+		set<int>cipher;
+		
+		for(int i = 0; i < a.length(); i++)
+			cipher.insert(abs((a[i] > b[i] ? 26 : 0) - (a[i]-b[i])));
+		
+		set<int>::iterator caesar = cipher.begin();
+
+		printf("%d\n",(cipher.size() == 1 ? *caesar:-1));
+	}
+	return 0;
+}
+calc.cpp
+#include <bits/stdc++.h>
+/**
+  Calculate the difference and sum of a single digit number
+  - a single digit character converted to integer by subtracting 48
+**/
+using namespace std;
+
+int main(){
+    
+   string equation; cin >> equation;
+   int ans = 0;
+   if(equation[1] == '+'){
+        ans = (equation[0]-48) + (equation[2]-48);
+   } else {
+        ans = (equation[0]-48) - (equation[2]-48);
+   }
+   cout << ans << endl;
+    
+    return 0;
+}
+calcpower.cpp
+#include <iostream>
+#include <cstdio>
+/**
+  Problem : Calculate the Power
+  Link    : 
+  Verdict : accepted
+**/
+using namespace std;
+#define ll long long int
+#define mod 1000000007
+ll d,x,y;
+void egcd(ll a, ll b){
+	if(b == 0){
+		d = a; x = 1; y = 0;
+	}else{
+		egcd(b,a%b);
+		ll temp = x;
+		x = y;
+		y = temp - (a/b)*y;
+	}
+}
+
+long long int modInverse(ll a){
+	egcd(a,mod);
+	return (x%mod+mod)%mod;
+}
+
+long long int binaryExp(ll b, ll e){
+	
+	ll x = 1, y = b;
+    while(e > 0) {
+        if(e%2 == 1) {
+            x=(x*y);
+            if(x>mod) x%=mod;
+        }
+        y = (y*y);
+        if(y>mod) y%=mod;
+        e /= 2;
+    }
+    return x;
+//	else if((e%mod)%2 == 0) return binaryExp(((b%mod)*(b%mod))%mod,((e%mod)*(modInverse(2)))%mod)%mod;
+//	else return ((b%mod)*(binaryExp(((b%mod)*(b%mod))%mod,((((e%mod)-1)%mod)*(modInverse(2)))%mod)%mod))%mod;
+	
+	
+}
+int main(){
+	
+	ll base, exponent; x = 1;
+	scanf("%lld%lld",&base,&exponent);
+	printf("%lld\n",binaryExp(base,exponent)%mod);
+
+	return 0;
+}
+chandu_hgr.cpp
+#include <iostream>
+#include <cstdio>
+/**
+	Problem		:	Chandu and his girlfriend returns
+	Link		:	https://www.hackerearth.com/practice/algorithms/sorting/merge-sort/practice-problems/algorithm/chandu-and-his-girlfriend-returns/
+	Verdict		:	Accepted
+**/
+using namespace std;
+
+void merge(long int A[ ] , long int start, long int mid, long int end) {
+ //stores the starting position of both parts in temporary variables.
+long int p = start ,q = mid+1;
+
+long int Arr[end-start+1] , k=0;
+
+for(int i = start ;i <= end ;i++) {
+    if(p > mid)      //checks if first part comes to an end or not .
+       Arr[ k++ ] = A[ q++] ;
+
+   else if ( q > end)   //checks if second part comes to an end or not
+       Arr[ k++ ] = A[ p++ ];
+
+   else if( A[ p ] > A[ q ])     //checks which part has smaller element.
+      Arr[ k++ ] = A[ p++ ];
+
+   else
+      Arr[ k++ ] = A[ q++];
+ }
+ 
+  for (long int p=0 ; p< k ;p ++) {
+   /* Now the real array has elements in sorted manner including both 
+        parts.*/
+     A[ start++ ] = Arr[ p ] ;                          
+  }
+}
+
+void mergeSort (long int A[ ] , long int start ,long int end )
+{
+           if( (end-start) >= 1 ) {
+           int mid = (start + end ) / 2 ;           // defines the current array in 2 parts .
+           mergeSort (A, start , mid ) ;                 // sort the 1st part of array .
+           mergeSort (A,mid+1 , end ) ;              // sort the 2nd part of array.
+
+         // merge the both parts by comparing elements of both the parts.
+          merge(A,start , mid , end );   
+   }                    
+}
+
+
+int main(){
+
+	long int t, n, m;
+	
+	scanf("%ld",&t);
+	while(t--){
+		scanf("%ld %ld",&n,&m); n+= m;
+		long int arr[n+m];
+		for(long int i = 0; i < n; i++){
+			scanf("%ld",&arr[i]);
+		}
+		
+		
+		mergeSort(arr,0,n-1);
+		
+		for(long int i = 0; i < n; i++)
+			printf("%ld%c",arr[i],(i < n-1 ? ' ' : '\n'));
+		
+	}
+
+	return 0;
+}
+cipher.cpp
+#include <iostream>
+#include <map>
+// https://www.hackerearth.com/practice/basic-programming/input-output/basics-of-input-output/practice-problems/algorithm/cipher-1/
+using namespace std;
+//Accepted
+
+/**
+  Problem : Cipher
+  Link    :
+  Author  : Jayson Alpe (Wolf Syntax)
+**/
+
+int main(){
+	string msg; int key;
+	string str,ing;
+	str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	ing = "abcdefghijklmnopqrstuvwxyz";
+	
+	map<int,char> dictionary_up;
+	map<int,char> dictionary_lower;
+	map<int,char> dictionary_numeric;
+	for(int i = 0; i < str.length(); i++){
+		dictionary_up[i] = str[i];
+		dictionary_lower[i] = ing[i];
+	}
+	
+	dictionary_numeric[0] = '0';dictionary_numeric[1] = '1';dictionary_numeric[2] = '2';dictionary_numeric[3] = '3'; dictionary_numeric[4] = '4';
+	dictionary_numeric[5] = '5';dictionary_numeric[6] = '6';dictionary_numeric[7] = '7';dictionary_numeric[8] = '8'; dictionary_numeric[9] = '9';
+	
+	while(cin >> msg){
+		
+		cin >> key;
+
+		for(int i = 0; i < msg.length(); i++){
+			if(msg[i] >= 65 && msg[i] <= 90){
+				msg[i] = dictionary_up[((msg[i]-65)+key)%26];
+			} else if(msg[i] >= 97 && msg[i] <= 122){				
+				msg[i] = dictionary_lower[((msg[i]-97)+key)%26];
+			} else if(msg[i] >= 48 && msg[i] <= 57){
+				msg[i] = dictionary_numeric[((msg[i]-48)+key)%10];
+			}
+		}
+		
+		cout << msg << endl;
+	}
+	return 0;
+}
+compiler_version.cpp
+//#include <bits/stdc++.h>
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstring>
+#include <map>
+#include <set>
+#include <vector>
+#include <cstdio>
+#include <iostream>
+
+/**
+	Problem		:	Compiler Version
+	Link		:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/compiler-version-2/
+	Verdict		:	PA 1/4
+	Author		:	Wolf Syntax
+**/
+
+using namespace std;
+
+int main(void){
+
+	string code;
+	while(getline(cin,code)){
+		int comment = code.find("//");
+		if(comment == string::npos){
+			comment = 0;
+			while((comment = code.find("->")) != string::npos)
+				code.replace(comment++,2,".");
+		}else{
+			int *x = &comment; int pos = 0;
+			
+			for(int i = 0; i < *x; i++){
+				pos = code.find("->",pos);
+				if(pos != string::npos && pos+1 < *x){
+					code.replace(pos,2,".");
+					pos++;
+				}else break;
+				
+				*x = code.find("//");
+			}
+		}
+		printf("%s\n",code.c_str());
+	}
+
+	return 0;
+}
+complete_string.cpp
+#include <iostream>
+#include <algorithm>
+#include <vector>
+/**
+	Problem	:	Complete String
+	Link	:	https://www.hackerearth.com/practice/basic-programming/implementation/basics-of-implementation/practice-problems/algorithm/complete-string-4/
+	Author	:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	int n; string str; cin >> n;
+	
+	while(n--){
+		cin >> str;
+		sort(str.begin(),str.end());
+		bool flag = false;
+		vector<int> vec(26);
+		if(str.length() >= 26){
+			for(int i = 0; i < str.length(); i++){
+				vec[str[i]-97]++;
+			}
+			sort(vec.begin(),vec.end());
+			if(vec[0] != 0) flag =true; 
+		}
+		
+		cout << (flag == true ? "YES\n":"NO\n");
+	}
+	
+	return 0;
+}
+conversion.cpp
+#include <iostream>
+#include <cstdio> //scanf, printf
+#include <map>
+#include <cstring> //strlen
+using namespace std;
+
+int main(){
+	
+	int t; scanf("%d",&t); t++;
+	while(t--){
+		string word; getline(cin,word);
+		
+		for(int i = 0; i < word.length(); i++){
+			
+			if(word[i] == ' ') printf("%c",'$');
+			else{ 
+				if(word[i] >= 65 && word[i] <= 90){
+					printf("%d",word[i]-64);
+				}else{
+					printf("%d",word[i]-96);
+				}
+			}
+			
+		}cout << endl;
+
+//		printf("%s\n",word);
+	}
+	
+	return 0;
+
+}
+count_divisors.cpp
+#include <iostream>
+//Accepted
+using namespace std;
+/**
+  Problem : Count Divisors
+  Link    : https://www.hackerearth.com/practice/basic-programming/input-output/basics-of-input-output/practice-problems/algorithm/count-divisors/
+  Author  : Jayson Alpe (Wolf Syntax)
+**/
+
+int main(){
+	
+	int l, r, k, ctr = 0;
+	while(cin >> l >> r >> k){
+		ctr = 0;
+		for(int i = l; i <= r; i++){
+			if(i%k == 0) ctr++;
+		}
+		cout << ctr << endl;
+	}
+	return 0;
+}
+count_enemies.cpp
+#include <iostream>
+#include <algorithm>
+#include <cstdio>
+/**
+	Problem	:	Count Enemies
+	Link	:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/count-enemies-5/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	
+	int t; string s; scanf("%d",&t);
+	
+	while(t--){
+		cin >> s;
+		
+		int cnt = 0,flag = 0, local_cnt = 0, pos = -1, prev = 0;
+		
+		while((pos = s.find("*",pos+1)) != string::npos){
+			local_cnt = flag = 0;
+			for(int i = prev; i < pos; i++){
+				if(s[i] == 'O') local_cnt++;
+				if(s[i] == 'X') flag = 1;
+			}
+			if(flag == 0) cnt += local_cnt;
+			prev = pos;
+		}
+		local_cnt = flag = 0;
+//		cout << prev << ' ' << s.length() << ' ' << pos << endl;
+		prev++;
+		for(int i = prev; i < s.length(); i++){
+			if(s[i] == 'X') flag = 1;
+			else if(s[i] == 'O') local_cnt++;
+		}
+		
+		if(flag == 0) cnt+= local_cnt;
+		printf("%d\n",cnt);
+	}
+	
+	
+	return 0;
+}
+count_numbers.cpp
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+/**
+	Problem	: Count Numbers
+	Link	: https://www.hackerearth.com/practice/basic-programming/implementation/basics-of-implementation/practice-problems/algorithm/count-numbers-46/
+	Verdict	: Accepted
+	Author	: Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+
+	int t,n; scanf("%d",&t);
+	while(t--){
+		scanf("%d",&n);
+		char word[10001];
+		scanf("%s",word);
+		int ctr = 0; bool prev, next; prev = next = false;
+		for(int i = 0; i < n-1; i++){
+			if(word[i] >= 48 && word[i] <= 57)
+				prev = true;
+			else prev = false;
+			
+			if(word[i+1] >= 48 && word[i+1] <= 57)
+				next = true;
+			else next = false;
+			
+			if(prev == true && next == false) ctr++;
+			
+		}
+		if(word[n-1] >= 48 && word[n-1] <= 57) ctr++;
+		
+		printf("%d\n",ctr);
+		//printf("%s %d\n",word,strlen(word));
+	}
+	return 0;
+}
+deepu.cpp
+#include <algorithm>
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
+#include <vector>
+#include <map>
+/**
+	Problem		: Criminal: Little Deepu and Little Kuldeep
+	Link		: https://www.hackerearth.com/practice/algorithms/sorting/merge-sort/practice-problems/algorithm/criminals-little-deepu-and-little-kuldeep/
+	Verdict		: Accepted
+	Author		: Wolf Syntax
+**/
+using namespace std;
+
+int comp(const void * a, const void * b){
+	return (*(long int*)a-*(long int *)b);
+}
+int main(){
+	
+	int t, n; scanf("%d",&t);
+	
+	while(t--){
+		scanf("%d",&n);
+		long int arr[n];
+		map<long int, int> freq;
+		for(int i = 0; i < n; i++){
+			scanf("%ld",&arr[i]);
+			freq[arr[i]]++;
+		}
+		
+		qsort(arr,n,sizeof(long int), comp);
+
+		int npacket = 1;
+		for(map<long int, int>::iterator it = freq.begin(); it!= freq.end(); ++it){
+			npacket = max(npacket,(int)(*it).second);
+		}
+		
+		printf("%d\n",npacket);
+	}
+	return 0;
+	
+}
+easy_going.cpp
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <algorithm>
+/**
+	Problem		:	Easy Going
+	Link		:	https://www.hackerearth.com/practice/algorithms/sorting/bubble-sort/practice-problems/algorithm/min-max-difference/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	int t, n, m, k; scanf("%d",&t);
+	while(t--){
+		scanf("%d %d",&n,&m);
+		k = n-m;
+		vector<int> vec(n);
+		for(int i = 0; i < n; i++) scanf("%d",&vec[i]);
+		
+		sort(vec.begin(),vec.end());
+		
+		int min_sum = 0, max_sum = 0;
+		for(int i = 0; i < k; i++){
+			min_sum += vec[i];
+			max_sum += vec[n-i-1];
+		}
+		printf("%d\n",max_sum-min_sum);
+	}	
+	return 0;
+}
+exploring_ruins.cpp
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <cstdio>
+#include <map>
+#include <set>
+/**
+	Problem	:	Exploring Ruins
+	Link	:	https://www.hackerearth.com/practice/algorithms/greedy/basics-of-greedy-algorithms/practice-problems/algorithm/exploring-ruins/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+	
+**/
+#define all(x) x.begin(),x.end()
+
+using namespace std;
+
+int main(){
+
+	string ruins;
+	getline(cin,ruins);
+	//string *eruins; eruins = &ruins;
+	
+	//map<string,int> freq;
+	set<string> explore_ruins;
+	int pos = 0; 
+	if(ruins.find('?',pos) == string::npos) explore_ruins.insert(ruins);
+	
+	while((pos = ruins.find('?',pos)) != string::npos){
+		if(pos == 0 && pos+1 < ruins.length()){
+			if(ruins[pos+1] != 'a') ruins[pos] = 'a';
+			else if(ruins[pos+1] == 'a') ruins[pos] = 'b';
+		}
+		
+		if(pos-1 >= 0 && pos+1 < ruins.length()){
+			if(ruins[pos-1] == 'a') ruins[pos] = 'b';
+			if(ruins[pos-1] == 'b'){
+				if(ruins[pos+1] == 'a') ruins[pos] = 'b';
+				else ruins[pos] = 'a';
+			}
+		}
+		
+		if(pos == ruins.length()-1){
+			if(ruins[pos-1] == 'a') ruins[pos] = 'b';
+			else ruins[pos] = 'a';
+		}
+		pos++;
+	}
+	
+	
+	if(ruins.find('?',pos) == string::npos) explore_ruins.insert(ruins);
+
+	set<string>::iterator cx = explore_ruins.begin();
+	cout << *cx << endl;
+
+	return 0;
+}
+factorial.cpp
+#include <iostream>
+#include <cstdio>
+//Accepted
+/**
+  Problem : Factorial
+  Link    : https://www.hackerearth.com/practice/basic-programming/input-output/basics-of-input-output/practice-problems/algorithm/find-factorial/
+  Author  : Jayson Alpe (Wolf Syntax)
+**/
+
+using namespace std;
+int factorial(int n){
+	if(n == 1) return 1;
+	return n* factorial(n-1);
+}
+
+int main(){
+	int n;
+	while(cin >> n){
+		cout << factorial(n) << endl;
+	}
+	return 0;
+}
+find_product.cpp
+#include <iostream>
+#include <cstdio>
+
+#define MOD 1000000007
+#define lli long long int
+//Accepted
+/**
+  Problem : Find Product
+  Link    : https://www.hackerearth.com/practice/basic-programming/input-output/basics-of-input-output/practice-problems/algorithm/find-product/
+  Author  : Jayson Alpe (Wolf Syntax)
+**/
+
+using namespace std;
+
+int main(){
+
+	int n; scanf("%d",&n);
+	int arr[n];
+	lli prod = 1;
+	for(int i = 0; i < n; i++){
+		scanf("%d",&arr[i]);
+		prod = (prod * arr[i])%MOD;
+	}
+	cout << (long long int)(prod) << endl;
+	return 0;
+}
+finding_pairs.cpp
+#include <iostream>
+#include <set>
+#include <map>
+#include <cstdio>
+/**
+  Problem : Finding Pairs
+  Link    : https://www.hackerearth.com/practice/algorithms/sorting/counting-sort/practice-problems/algorithm/finding-pairs-4/
+  Verdict : Accepted
+  Author  : Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	
+	int t, k; scanf("%d",&t);
+	
+	while(t--){
+		scanf("%d",&k);
+		int fp;
+		set<int> hackerearth;
+		map<int,int> freq;
+		for(int i = 0; i < k; i++){
+			scanf("%d",&fp);
+			hackerearth.insert(fp);
+			freq[fp]++;
+		}
+		int cnt = 0, tx; 
+		for(set<int>::iterator i = hackerearth.begin(); i != hackerearth.end(); i++){
+			tx = freq[*i];
+			if(tx == 1) cnt++;
+			else{ cnt += ((tx*tx+tx)/2); }
+		}
+		cout << cnt << endl;
+	}
+	
+	
+	return 0;
+}
+football_fest.cpp
+#include <cstdio>
+#include <cassert>
+#include <stack>
+/**
+	Problem		:	The Football Fest
+	Link		:	
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+
+	
+using namespace std;
+
+int main(int argc, char * argv[]){
+	int t, n, id, init,x, t_count, on_queue; char c; 
+	scanf("%d",&t);
+	while(t--){
+		scanf("%d %d",&n,&id);
+		stack<int>player_id; 
+		//vector<int> player_queue;
+		player_id.push(id);
+		t_count = 0;
+		
+		for(int i = 0; i < n; i++){
+			scanf(" %c",&c);
+			assert(c == 'P' || c == 'B');
+			if(c == 'P'){
+				
+				scanf("%d",&x);			
+				player_id.push(x);
+			}else {	
+				x = player_id.top(); player_id.pop();
+				init = player_id.top(); player_id.pop();
+				player_id.push(x); player_id.push(init);
+			}
+		}
+		
+		printf("Player %d\n",player_id.top());
+	}
+	return 0;
+}
+good_string.cpp
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+/**
+	Problem	:	Good String
+	Link	:	https://www.hackerearth.com/practice/basic-programming/implementation/basics-of-implementation/practice-problems/algorithm/good-string-3/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+
+int main(){
+	
+	string str;
+	while(getline(cin,str)){
+		sort(str.begin(),str.end());
+		int prev = str.length();
+		
+		str.erase(unique(str.begin(),str.end()),str.end());
+		
+		cout << prev-str.length() << endl;
+	}
+	return 0;
+}
+hintc.cpp
+#include <cstdio>
+
+/**
+	Problem	:	Houses in the cities
+	Link	:	
+	Verdict	:	accepted
+**/
+#define ll long long int
+
+using namespace std;
+
+int main(){
+	
+	int t, n, q, l, r; scanf("%d",&t);
+	while(t--){
+		
+		scanf("%d",&n);
+		ll houses[n+1]; houses[0] = 0;
+		
+		for(int i = 1; i <= n; i++)
+			scanf("%lld",&houses[i]);
+		
+		for(int i = 1; i <= n; i++){
+			houses[i] += houses[i-1];
+		}
+
+		scanf("%d",&q);
+		while(q--){
+			scanf("%d %d",&l,&r); l--;
+			printf("%lld\n",houses[r]-houses[l]);
+		}
+		
+	}
+
+	return 0;
+}
+house.cpp
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+   int t, Hr, Hb, Wb;
+   cin >> t;
+   while(t--){
+	   cin >> Hr >> Hb >> Wb;
+	   int dots = Hr;
+	   int height = Hr + Hb + 1, width = 4+1+Wb;
+	   int roof_len = width-(Hr+Hr);
+	   
+	   for(int i = 0; i < height; i++){
+		   string dimen = "";
+		   if(i == 0){
+				string r1(Hr,'.');
+				dimen += r1;
+				
+				string r2(roof_len,'_');
+				dimen += (r2+r1);
+				
+		   } else {
+			   if(Hr >= 0){
+					string r1(Hr,'.');
+					dimen += (r1+"/");
+					string r2(roof_len,'#');
+					dimen += (r2+"\\"+r1);
+			   } else if(i < height-3){
+				   string r1(2,'.');
+				   dimen += (r1+"|");
+				   string r2(Wb-1,'.');
+				   dimen += (r2 + "|"+r1);
+			   } else if(i == height-3){
+				   string r1(2,'.');
+				   dimen += (r1+"|");
+				   string r2(Wb-3,'.');
+				   dimen += (r2 + "_.|"+r1);
+			   } else if(i == height-2){
+				   
+				   string r1(2,'.');
+				   dimen += (r1+"|");
+				   string r2(Wb-4,'.');
+				   dimen += (r2 + "|.||"+r1);
+			   }else {
+				   string r1(2,'.');
+				   dimen += (r1+"|");
+				   string r2(Wb-4,'_');
+				   dimen += (r2 + "|_||"+r1);
+			   }
+			   roof_len += 2;
+		   }
+		   Hr--;
+		   cout << dimen << endl;
+	   }
+	   cout << endl;
+   }
+    return 0;
+}
+intel_girl.cpp
+#include <cstdio>
+#include <cstring>
+#include <vector>
+/**
+	Problem	:	Intelligent Girl
+	Link	:	https://www.hackerearth.com/practice/algorithms/dynamic-programming/introduction-to-dynamic-programming-1/practice-problems/algorithm/intelligent-girl-1/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntx
+**/
+using namespace std;
+
+int main(){
+	
+	char intel_girl[10000];
+	scanf("%s",intel_girl); 
+	int n = strlen(intel_girl); intel_girl[n] = '\0';
+	vector<int> soumika(n);
+	for(int i = 0; i < n; i++){
+		for(int j = i; j < n; j++)
+			if((intel_girl[j]-48)%2 == 0)
+				soumika[i]++;
+	}
+		
+	for(int i = 0; i < n; i++){
+		printf("%d ",soumika[i]);
+	}
+	return 0;
+}
+invert_case.cpp
+#include <iostream>
+#include <cstdio>
+#include <cctype>
+/**
+	Problem	:	Invert Case of Character
+	Link	:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/invert-case-of-character/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+	
+**/
+using namespace std;
+
+int main(){
+	
+	string invertCase;
+	getline(cin,invertCase);
+	int l, r;
+	cin >> l >> r; l--; r--;
+	if(isupper(invertCase[l])) invertCase[l] = tolower(invertCase[l]);
+	else invertCase[l] = toupper(invertCase[l]);
+	
+	if(isupper(invertCase[r])) invertCase[r] = tolower(invertCase[r]);
+	else invertCase[r] = toupper(invertCase[r]);
+	printf("%s\n",invertCase.c_str());
+	
+	return 0;
+}
+jumbler_letter.cpp
+#include <cstdio>
+#include <sstream>
+#include <iostream>
+#include <cstring>
+#include <cctype>
+
+using namespace std;
+
+/**
+	Problem	:	Jumble Letter
+	Link	:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/change-string/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+	
+**/
+
+int main(){
+	
+	int t; scanf("%d",&t);
+	while(t--){
+		char prasant[100]; scanf("%s",prasant); int k = 0, n = strlen(prasant); prasant[n] = '\0';
+		char jumble[200];
+		
+		for(int i = 0; i < n; i++){
+			char c = tolower(prasant[i]);
+			if(c != 'a' && c != 'e' && c != 'i' && c != 'o' && c != 'u' && c != 'y'){
+				jumble[k] = '.'; jumble[k+1] = tolower(prasant[i]);
+				k += 2;
+			}     
+		}
+		jumble[k] = '\0';
+		
+		printf("%s\n",jumble);
+	}
+	
+	return 0;
+}
+last_occurrence.cpp
+#include <iostream>
+#include <cstdio>
+#include <map>
+
+using namespace std;
+
+/**
+	Problem	:	Last Occurence
+	Link	:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/algorithm/last-occurence/
+	Verdict	:	Accepted
+	Author	: 	Wolf Syntax
+**/
+
+int main(){
+	
+	int t, n,q, val; scanf("%d",&t);
+	while(t-- && scanf("%d",&n)){
+		int a[n];
+		map<int,int> occur;
+		for(int i = 0; i < n; i++){
+			scanf("%d",&a[i]);
+			occur[a[i]] = i+1;
+		}
+		
+		scanf("%d",&q);
+		while(q-- && scanf("%d",&val)){
+			printf("%d\n",(occur[val] != 0 ? occur[val] : -1));
+		}
+	}
+	
+	return 0;
+}
+lets_begin.cpp
+#include <cstdio>
+#include <vector>
+
+//https://www.hackerearth.com/practice/algorithms/dynamic-programming/introduction-to-dynamic-programming-1/practice-problems/algorithm/lets-begin/
+
+using namespace std;
+#define ll long long int;
+
+/**
+	Problem	: 	Let's Begin
+	Link	:	https://www.hackerearth.com/practice/algorithms/dynamic-programming/introduction-to-dynamic-programming-1/practice-problems/algorithm/lets-begin/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax;
+**/
+int main(){
+	
+	int t, n; scanf("%d",&t);
+	vector<int> pcount; pcount.push_back(-1); pcount.push_back(-1);
+	for(int i = 2; i < 1000000; i++){
+		n = i;
+		int total = n/7;
+		n %= 7;
+		if(n > 0){
+			if(n%2 == 0 && n > 2) total += 2;
+			else total++;
+		}
+		pcount.push_back(total);
+	}
+	
+	while(t-- && scanf("%d",&n)){
+		printf("%d\n",pcount[n]);
+	}
+	
+	
+	return 0;
+}
+lmgstr.cpp
+//#include <bits/stdc++.h>
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstring>
+#include <map>
+#include <set>
+#include <vector>
+#include <cstdio>
+#include <iostream>
+
+/**
+	Problem		:	Little Monk and Good String
+	Link		:	https://www.hackerearth.com/practice/algorithms/string-algorithm/string-searching/practice-problems/algorithm/little-monk-and-good-string/description/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+
+using namespace std;
+
+int main(void){
+	
+	string goodstr;
+	string badstr = "bcdfghjklmnpqrstvwxyz";
+	
+	while(getline(cin,goodstr)){
+		
+		int pos = goodstr.find_first_of(badstr), prev = pos;
+		int max_gstr = (prev == -1 ? goodstr.length() : prev);
+		
+		while((pos = goodstr.find_first_of(badstr,pos+1)) != string::npos){
+			max_gstr = max(max_gstr,pos-prev-1);
+			prev = pos;
+		}
+
+		if(prev != goodstr.length()-1){
+			prev = goodstr.length()-prev-1;
+			max_gstr = max(max_gstr,prev);
+		}
+		
+		printf("%d\n",max_gstr);
+	}
+	return 0;
+}
+long_atm_queue.cpp
+#include <cstdio>
+/**
+	Problem	:	Long ATM queue
+	Link	:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/algorithm/long-atm-queue-3/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	
+	int n, groups = 1;
+	scanf("%d",&n);
+	int arr[n];
+	scanf("%d",&arr[0]);
+	for(int i = 1; i < n; i++){
+		scanf("%d",&arr[i]);
+		if(arr[i-1] > arr[i]) groups++;
+	}
+	printf("%d\n",groups);
+	return 0;
+}
+magical_tree.cpp
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
+#include <string>
+//#include <sstream>
+#include <cmath>
+
+#define lli long long int
+/**
+	Problem	: Magical Tree
+	Link	  : https://www.hackerearth.com/practice/basic-programming/implementation/basics-of-implementation/practice-problems/algorithm/magical-tree/
+  Verdict : Accepted
+  Author  : Wolf Syntax
+**/
+
+using namespace std;
+
+int main(){
+	
+	lli n, t; string str; cin >> n;
+	
+	for(lli i = 0; i < n+1; i++){
+		
+		size_t pos, prev = 0;
+		getline(cin,str);
+		lli sum = -1, a, tmp, flag = 0;
+		char op;
+		
+		while((pos = str.find_first_of("+-",prev)) != string::npos){
+			tmp = atoi(str.substr(prev,pos-prev).c_str());
+			if(flag == 0) sum = tmp;
+			else{ 
+				
+				a = tmp;
+				if(op == '-') sum -= a;
+				else sum += a;
+			}
+			
+			flag = 1; op = str[pos];
+			
+			prev = pos+1;
+		}
+		if(prev < str.length()){
+			tmp = atoi(str.substr(prev,string::npos).c_str());
+			if(op == '+') sum += tmp;
+			else sum -= tmp;
+			
+		}
+		
+		if(i == 1) t=sum;
+		else if(i > 1) t = max(t,sum);
+		
+	}
+	cout << t << endl;
+	return 0;
+}
+manna_fname.cpp
+#include <iostream>
+#include <cstdio>
+
+using namespace std;
+/**
+	Problem	:	Manna's First Name
+	Link	:	https://he-s3.s3.amazonaws.com/media/hackathon/game-of-codes-3/problems/33c2e926-c-output-33c2e55.txt?Signature=xnVCYa07C23FQYHyFZILLa2FXKk%3D&Expires=1514985904&AWSAccessKeyId=AKIAIDRXK3ZWDNTBIPQA
+	Verdict	:	Accepted
+	
+**/
+int main(){
+	
+	int t;
+	string s; cin >> t;
+	
+	while(t--){
+		cin >> s;
+		int pos = 0, cnt = 0, ctr = 0;
+		while((pos = s.find("SUVO",pos)) != string::npos){
+			string tmp = ""; 
+			if(pos < s.length()-3){
+				tmp += s[pos+4]; tmp += s[pos+5]; tmp += s[pos+6];
+			}
+			
+			if(tmp == "JIT"){
+				cnt++;
+			}else{
+				ctr++;
+			}
+
+			pos += 4;
+		}
+
+		printf("SUVO = %d, SUVOJIT = %d\n",ctr,cnt);
+	}
+	
+	return 0;
+}
+mark_the_answer.cpp
+//#include <iostream>
+/**
+	Problem	:	Mark the Answer
+	Link	:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/algorithm/mark-the-answer-1/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+	
+**/
+
+#include <cstdio>
+#include <map>
+using namespace std;
+
+int main(){
+	
+	int n, x, flag = 0, max_score = 0;
+	scanf("%d %d",&n,&x);
+	int questions[n];
+	map<int,int>freq; 
+	for(int i = 0; i < n; i++){
+		scanf("%d",&questions[i]);
+	}
+
+	for(int i = 0; i < n; i++){
+		if(questions[i] > x) flag++;
+		if(questions[i] <= x && flag <= 1) { max_score++; }
+		if(flag > 2) break;
+		
+	}
+	
+	printf("%d\n",max_score);
+	return 0;
+}
+marut_string.cpp
+#include <iostream>
+#include <cstdio> 	//printf, scanf
+#include <cstring> 	//strlen
+#include <cmath>
+/**
+	Problem	:	Marut and String
+	Link	:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/marut-and-strings-4/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+
+	int t; scanf("%d",&t);
+	if(t <= 10 && t != 0){
+		while(t--){
+			char marut[110];
+			scanf("%s",marut); int n = strlen(marut);
+			marut[n] = '\0';
+			if(n <= 100 && n >= 1){
+				int temp[2]; temp[0] = temp[1] = 0;
+				for(int i = 0; i < n; i++){
+					if(marut[i]>= 65 && marut[i] <= 90) temp[0]++;
+					else if(marut[i]>= 97 && marut[i] <= 122) temp[1]++;
+				}
+				
+				if(temp[0] == temp[1] && temp[0] == 0) printf("Invalid Input\n");
+				else if((temp[0] == 0 && temp[1] > 0) || (temp[1] == 0 && temp[0] > 0)) printf("0\n");
+				else if(temp[0] > 0 && temp[1] > 0) printf("%d\n",min(temp[0],temp[1]));
+			}else printf("Invalid Input\n");
+		}
+		
+	}else printf("Invalid Test\n");
+
+	return 0;
+}
+match_maker.cpp
+#include <algorithm>
+#include <vector>
+#include <iostream>
+#include <cstdio>
+
+using namespace std;
+#define elseif	else if
+
+int compar(const void*a,const void *b){
+	return (*(int*)a-*(int*)b);
+}
+
+void _conquer(int arr[], int start, int mid, int end){
+	int left_sa = start, right_sa = mid+1;
+	int merge[end-start+1], pos = 0;
+	
+	for(int i = start; i <= end; i++){
+		if(left_sa > mid)
+			merge[pos++] = arr[right_sa++];
+		elseif(right_sa > end)
+			merge[pos++] = arr[left_sa++];
+		elseif(arr[left_sa] > arr[right_sa])
+			merge[pos++] = arr[left_sa++];
+		else
+			merge[pos++] = arr[right_sa++];
+		
+	}
+	
+	for(int i = 0; i < pos; i++)
+		arr[start++] = merge[i];
+}
+
+void _divide(int arr[], int start, int end){
+	if((end-start) >= 1){
+		int mid =(start+end)/2;
+		
+		_divide(arr,start,mid);
+		_divide(arr,mid+1,end);
+		
+		_conquer(arr,start,mid,end);
+	}
+}
+
+int main(){
+
+	int t, n; scanf("%d",&t);
+	
+	while(t--){
+		
+		scanf("%d",&n);
+		int boys[n], girls[n];
+		for(int i = 0; i < n; i++) scanf("%d",&girls[i]);			
+		for(int i = 0; i < n; i++) scanf("%d",&boys[i]);			
+		
+		qsort(girls,n,sizeof(int),compar);
+		_divide(boys,0,n-1);
+		
+		int ctr = 0;
+		
+		for(int i = 0; i < n; i++){
+			if(boys[i]%girls[i] == 0 || girls[i]%boys[i] == 0) ctr++;
+		}
+		
+		
+		printf("%d\n",ctr);
+		
+	}
+	
+
+	return 0;
+}
+max_ksize.cpp
+/**
+	Problem		:	Maximum of K-size subarrays (Deque)
+	Link		:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/algorithm/maximum-of-k-size-subarrays-deque/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+#define ll long long int
+
+int main(){
+	
+	ll n, k; scanf("%lld %lld",&n,&k);
+	ll arr[n];
+	for(ll i = 0; i < n; i++) scanf("%lld",arr+i);
+	
+	for(ll i = 0; i < n; i++){
+		if(i+k-1 < n){
+			ll m = *max_element(arr+i,arr+i+k);
+			printf("%lld%c",m,(i < n-1 ? ' ' : '\n'));
+		}
+		//if(i == 0) printf("%lld%c",m,(i < n-1 ? ' ' : '\n'));
+		
+	}
+	return 0;
+}
+memorise_me.cpp
+//#include <bits/stdc++.h>
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstring>
+#include <map>
+#include <set>
+#include <vector>
+#include <cstdio>
+#include <iostream>
+
+/**
+	Problem		:	Memorise Me!
+	Link		:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/algorithm/memorise-me/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+
+using namespace std;
+
+int main(void){
+	
+	int n,q; scanf("%d",&n);
+	map<int,int> frequency;
+	for(int i = 0; i < n; i++) {
+		scanf("%d",&q);
+		frequency[q]++;
+	}
+	scanf("%d",&q);
+	for(int i = 0; i < q; i++) {
+		scanf("%d",&n);
+		if(frequency[n] == 0) printf("NOT PRESENT\n");
+		else printf("%d\n",frequency[n]);
+		
+	}
+	return 0;
+}
+micro_array.cpp
+
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <map>
+/**
+	Problem		:	Micro and Array Update
+	Link		:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/algorithm/micro-and-array-update/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	
+    int t,n,k; scanf("%d",&t);
+	
+	while(t--){
+		
+		scanf("%d %d",&n,&k);
+		int arr[n], m = 0;
+		
+		for(int i = 0; i < n; i++) {
+		    scanf("%d",&arr[i]);
+			if(arr[i] < k)
+			m = max(m,k-arr[i]);
+			
+		}   
+		//min_element(arr,arr+n);
+		
+		printf("%d\n",m);
+		
+	}
+	
+
+    return 0;
+}
+missing_alpha.cpp
+#include <iostream>		//cin, cout
+#include <map>			
+#include <cmath>		//min
+#include <algorithm> 	//sort
+#include <vector> 
+/**
+	Problem		: 	Missing Alphabet
+	Link		:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/missing-alphabets-1/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+using namespace std;
+
+map<char,int> translate;
+
+bool solve(string s1, string s2){
+	
+	int a = min(s1.length(),s2.length());
+	for(int i = 0; i < a; i++){
+		if(translate[s1[i]] < translate[s2[i]])
+			return true;
+		if(translate[s1[i]] > translate[s2[i]])
+			return false;
+		if(translate[s1[i]] == translate[s2[i]]){
+			if(translate[s1[i+1]] < translate[s2[i+1]]) return true;
+			if(translate[s1[i+1]] > translate[s2[i+1]]) return false;
+			
+		}
+	}
+	return false;
+}
+
+int main(){
+	
+	int t, m; string dictionary, missing; cin >> t; t++;
+	while(t--){
+		cin >> dictionary >> m;
+		
+		for(int i = 0; i < dictionary.length(); i++){
+			translate[dictionary[i]] = i+1;
+		}
+		vector<string> missing(m);
+		for(int i = 0; i < m; i++){
+			cin >> missing[i];
+		}
+		sort(missing.begin(),missing.end(),solve);
+		for(int i = 0; i < m; i++)
+			cout << missing[i] << endl;
+	}
+	
+	
+	
+	
+	return 0;
+	
+}
+mmirror.cpp
+#include <iostream>
+
+using namespace std;
+/**
+	Problem	:	Mirror of Mahatma Gandhi 
+	Link	:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/mirror-of-mahatma-gandhi/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+int main(){
+
+	int n; cin >> n;
+	string s, invalid = "2345679";
+	while(n--){
+		cin >> s;
+		if(s == string(s.rbegin(),s.rend())){
+			cout << (s.find_first_of(invalid) == string::npos ? "YES\n" : "NO\n");
+		} else cout << "NO\n";
+	}
+	
+	return 0;
+}
+monk_love_food.cpp
+//#include <iostream>
+#include <iostream>
+#include <vector>
+#include <cstdio>
+/**
+	Problem		: 	Monk's Love for Food
+	Link		:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/algorithm/monks-love-for-food/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+using namespace std;
+#define ll long long
+int main(){
+
+	ll query, food, cost, pile = 0;
+	scanf("%lld",&query);
+	vector<ll> food_package(100000);
+	
+	while(query--){
+		scanf("%lld",&food);
+		if(food == 2) { 
+			scanf("%lld",&cost);
+			pile++;
+			food_package[pile] = cost;
+			
+			
+		}else{ 
+			if(food_package[pile] == 0) printf("No Food\n");
+			else printf("%lld\n",food_package[pile]);
+			if(pile != 0) pile--;
+		}
+	}
+	
+	return 0;
+}
+
+monk_luckymin.cpp
+//#include <bits/stdc++.h>
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstring>
+#include <map>
+#include <set>
+#include <vector>
+#include <cstdio>
+#include <iostream>
+
+#define li long int
+/**
+	Problem		:	Monk and Lucky Minimum
+	Link		:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/algorithm/monk-and-lucky-minimum-3/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+
+using namespace std;
+
+int main(void){
+	
+	int t, n; scanf("%d",&t);
+	
+	while(t--){
+		scanf("%d",&n);
+		vector<li>monk(n);
+		map<long int,long int> frequency;
+		for(int i = 0; i < n; i++) {
+			scanf("%ld",&monk[i]);
+			frequency[monk[i]]++;
+		}
+		int f = *min_element(monk.begin(),monk.end());
+		printf("%s\n",(frequency[f] % 2 == 0 ? "Unlucky":"Lucky"));
+	}
+	
+	
+	return 0;
+}
+monk_philosopher_stone.cpp
+#include <cstdio>
+#include <stack>
+#include <queue>
+#include <iostream>
+/**
+	Problem	:	Monk and Philosophers Stone
+	Link	:	https://www.hackerearth.com/practice/data-structures/stacks/basics-of-stacks/practice-problems/algorithm/monk-and-philosophers-stone/description/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	int n, q, x, worth = 0, SIZE = 0; scanf("%d",&n);
+	queue<int>harry_bag;
+	stack<int>monk_bag;
+	for(int i = 0; i < n; i++){
+		scanf("%d",&x);
+		harry_bag.push(x);
+	}
+	scanf("%d %d",&q,&x);
+	string action;
+	for(int i = 0; i < q; i++){
+		cin >> action;
+		if(action == "Harry"){
+			if(worth != x){
+				monk_bag.push(harry_bag.front());
+				worth += harry_bag.front();
+				SIZE++;
+			}
+			harry_bag.pop();
+			
+		}else{
+			if(worth != x){
+				worth -= monk_bag.top();
+				monk_bag.pop();
+				SIZE--;
+			}
+		}
+	}
+
+	
+	printf("%d\n",(worth == x ? SIZE : -1));
+		
+	return 0;
+}
+monk_rotation.cpp
+//#include <bits/stdc++.h>
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstring>
+#include <map>
+#include <set>
+#include <vector>
+#include <cstdio>
+#include <iostream>
+
+/**
+	Problem		:	Monk and Rotation
+	Link		:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/algorithm/monk-and-rotation-3/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+
+using namespace std;
+
+
+int main(void){
+	
+	long long int t, n, k; scanf("%lld",&t);
+	while(t--){
+		scanf("%lld%lld",&n,&k);
+		long int arr[n];
+		for(long int i = 0; i < n; i++) scanf("%lld",&arr[i]);
+		long int temp = (k < n ? max(k,n) : min(k,n))-(k%n);
+		
+		for(long int i = temp; i < n; i++) cout << arr[i] << ' ';
+		for(long int i = 0; i < temp; i++) cout << arr[i] << (i < temp-1 ? ' ':'\n');
+		
+	}
+	
+	
+	
+	return 0;
+}
+monk_twalk.cpp
+//#include <bits/stdc++.h>
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstring>
+#include <map>
+#include <set>
+#include <vector>
+#include <cstdio>
+#include <iostream>
+
+/**
+	Problem		:	Monks takes a walk
+	Link		:	https://www.hackerearth.com/practice/algorithms/searching/linear-search/practice-problems/algorithm/monk-takes-a-walk/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+
+using namespace std;
+
+int main(void){
+	int t, f = 0; string str;
+	scanf("%d",&t);
+	
+	while(t--){
+		
+		cin >> str;
+		int total_vowel = count(str.begin(),str.end(),'A') + count(str.begin(),str.end(),'E') + count(str.begin(),str.end(),'I') + count(str.begin(),str.end(),'O') + count(str.begin(),str.end(),'U') + count(str.begin(),str.end(),'a') + count(str.begin(),str.end(),'e') + count(str.begin(),str.end(),'i') + count(str.begin(),str.end(),'o') + count(str.begin(),str.end(),'u');
+		printf("%d\n",total_vowel);
+	}
+	return 0;
+}
+most_freq.cpp
+//#include <bits/stdc++.h>
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstring>
+#include <map>
+#include <set>
+#include <vector>
+#include <cstdio>
+#include <iostream>
+
+/**
+	Problem		:	Most Frequent
+	Link		:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/golf/distinct-count-2/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+
+using namespace std;
+
+int main(void){
+
+	int t; scanf("%d",&t);
+	
+	int n, m = -1;
+	set<int> bourn;
+	map<int,int> freq;
+		
+	for(int i = 0; i < t; i++){
+		scanf("%d",&n);
+		bourn.insert(n);
+		freq[n]++;
+		m = max(freq[n],m);
+	}
+
+	vector<int> earth(bourn.begin(),bourn.end());
+	sort(earth.begin(),earth.end());
+
+	for(int i = 0; i < earth.size(); i++){
+		if(freq[earth[i]] == m) {
+			m = i;
+			break;
+		}
+	}
+	printf("%d\n",earth[m]);
+		
+	return 0;
+}
+nobita_string.cpp
+#include <cstdio>
+#include <sstream>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main(){
+	int t; scanf("%d",&t); t++;
+	while(t--){
+		string nobita, doraemon; getline(cin,nobita);
+		stringstream out(nobita);
+		vector<string> swapper;
+		while(out >> doraemon){
+			swapper.push_back(doraemon);
+		}
+		for(int i = swapper.size()-1; i >= 0; i--)
+			printf("%s%c", swapper[i].c_str(),(i >= 1 ? ' ' : '\n'));
+	}
+	
+	return 0;
+}
+noddy_vowel.cpp
+#include <iostream>
+
+using namespace std;
+/**
+	Problem		:	Noddy Vowel
+	Link		:	https://www.hackerearth.com/practice/algorithms/string-algorithm/string-searching/practice-problems/algorithm/noddy-and-his-vowels/
+	Verdict		:	Accepted
+**/
+int main(){
+	
+	int t; cin >> t;
+	string str;
+	while(t--){
+		cin >> str;
+		int a = str.find('a');
+		int e = str.find('e');
+		int i = str.find('i');
+		int o = str.find('o');
+		int u = str.find('u');
+		if(a >= 0 && e >= 0 && i >= 0 & o >= 0 && u >= 0)
+			cout << "YES\n";
+		else cout << "NO\n";
+		
+	}
+	return 0;
+}
+palindrome.cpp
+#include <iostream>
+
+using namespace std;
+/**
+	Problem		:	Palindrome
+	Link		:	https://www.hackerearth.com/practice/algorithms/string-algorithm/string-searching/practice-problems/algorithm/palindrome-116/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+int main(){
+    
+    int t; scanf(" %d",&t); string str;
+    while(t--){
+        cin >> str;
+        if(str == string(str.rbegin(),str.rend())) cout << "YES\n";
+        else cout << "NO\n";
+    }
+    return 0;
+}
+palindrome_string.cpp
+#include <iostream>
+
+using namespace std;
+
+/**
+	Problem		:	Palindrome String
+	Link		:	https://www.hackerearth.com/practice/algorithms/string-algorithm/string-searching/practice-problems/algorithm/palindrome-string-22/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+int main(){
+    
+    string str;
+    while(getline(cin,str)){
+        if(str == string(str.rbegin(),str.rend()))
+            cout << "Palindrome\n";
+        else
+            cout << "Not Palindrome\n";
+    }
+    
+    return 0;
+}
+palindromes.cpp
+#include <iostream>
+/**
+	Problem	:	Palindromes
+	Link	:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/palindromes-3/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+
+	string s;
+	while(getline(cin,s)){
+		int i = 0;
+		while((s == string(s.rbegin(),s.rend()+i))){
+			
+			s.erase(s.length()-(i+1),1);
+			i++;
+		}
+		
+		if(s == string(s.rbegin(),s.rend())) cout << "0\n";
+		else cout << s.length() << endl;
+
+	}
+
+	return 0;
+}
+palindromic_string.cpp
+#include <iostream>
+#include <algorithm>
+using namespace std;
+//Accepted
+/**
+  Problem : Palindromic String
+  Link    : https://www.hackerearth.com/practice/basic-programming/input-output/basics-of-input-output/practice-problems/algorithm/palindrome-check-2/
+  Author  : Jayson Alpe (Wolf Syntax)
+**/
+
+int main(){
+	
+	string str,ing;
+	while(cin >> str){
+		ing = str;
+		reverse(str.begin(),str.end());
+		cout << (ing == str ? "YES\n":"NO\n");
+	}
+	
+	return 0;
+}
+password.cpp
+#include <iostream>
+#include <vector>
+#include <cstdio>
+/**
+	Problem		:	Password
+	Link		:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/password-1/
+	Verdict		:	Accepted
+**/
+
+using namespace std;
+
+int main(){
+	
+	int n; cin >> n;
+	vector<string> pass_list(n);
+	for(int i = 0; i < n; i++){
+		cin >> pass_list[i];
+	}
+	int flag = 0;
+	for(int i = 0; i < n; i++){
+		if(flag == 1) break;
+		for(int j = n-1; j >= 1; j--){
+			if(pass_list[i] != pass_list[j] && pass_list[i] == string(pass_list[j].rbegin(),pass_list[j].rend()))
+			{
+				int len = pass_list[i].length();
+				cout << len << ' ' << pass_list[i][len/2] << endl;
+				flag = 1;
+				break;
+			}	
+		}
+	}
+	return 0;
+}
+pfoccur.cpp
+#include <iostream>
+#include <cstdio>
+#include <map>
+//Accepted
+using namespace std;
+
+int main(){
+	
+	int t; scanf("%d",&t);
+	string str;
+	
+	while(t--){
+		cin >> str;
+		map<char,int> occurrence;
+		for(int i = 0; i < str.length(); i++){
+			occurrence[str[i]]++;
+			if(occurrence[str[i]] == 1) cout << str[i];
+		}cout << endl;
+
+	}
+	
+	return 0;
+}
+prime_number.cpp
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+
+#define lli long long int
+#define EPS 1e-7
+//Accepted
+using namespace std;
+/**
+  Problem : Prime Number
+  Link    : https://www.hackerearth.com/practice/basic-programming/input-output/basics-of-input-output/practice-problems/algorithm/prime-number-8/
+  Author  : Jayson Alpe (Wolf Syntax)
+**/
+
+//ACM Stanford University Team Notebook code snippets
+bool isPrime(lli n){
+	if(n <= 1) return false;
+	if(n <= 3) return true;
+	if(!(n%2) || !(n%3)) return false;
+	lli s = (lli) (sqrt((double)(n)) + EPS);
+	for(lli i = 5; i <= s; i+= 6)
+		if(!(n%i)||!(n%(i+2))) return false;
+	
+	return true;
+}
+
+int main(){
+	
+	int prime[1001];
+	
+	for(int i = 0; i <= 1000; i++){
+		prime[i] = (isPrime(i) == true ? 1 : 0);
+	}
+
+	int n; scanf("%d",&n);
+	for(int i = 0; i < n; i++){
+		if(prime[i] == 1)
+			cout << i << ' ';
+	} cout << endl;
+	
+	return 0;
+}
+professor_operation.cpp
+#include <cstdio>
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+inline void solve(int n){
+	int professor[n]; int q, l, r;
+	for(int i = 0; i < n; i++) scanf("%d",professor+i);
+	scanf("%d",&q);
+	
+	
+	vector<int>sweeper(n);
+	for(int i = 0; i < q; i++){
+		scanf("%d %d",&l,&r);
+		//Line Sweep Algorithm
+		sweeper[l-1]++; sweeper[r]++;
+		
+	}
+	/**
+		Line Sweep Algorithm
+			Avoid unnecessary swapping
+	**/
+	for(int i = 1; i < n; i++)
+		sweeper[i]+= sweeper[i-1];
+		
+	for(int i = 0, j = n-1; i < n/2; i++, j--)
+		sweeper[i]+= sweeper[j];
+	
+	for(int i = 0, j = n-1; i < n/2; i++, --j)
+		if(sweeper[i] & 1) swap(professor[i],professor[j]);
+		
+
+	for(int i = 0; i < n; i++) printf("%d%c",professor[i],(i < n-1 ? ' ' : '\n'));
+	
+
+}
+
+int main(){
+	ios::sync_with_stdio(0);
+	int n; scanf("%d",&n);
+	solve(n);
+	return 0;
+}
+prom_night.cpp
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <cstdlib>
+#include <map>
+#include <set>
+#include <cmath>
+
+using namespace std;
+
+/**
+	Problem		:	Prom Night
+	Link		:	https://www.hackerearth.com/practice/algorithms/sorting/quick-sort/practice-problems/algorithm/prom-night/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+	
+**/
+
+class HackerEarth{
+	int operation;
+	
+	public:
+	
+		HackerEarth();
+		void _conquer(int arr[], int start, int mid, int end);
+		void _divide(int arr[], int start, int end);
+		//int comp(const void*a, const void*b);
+		void quickSort(int arr[],int n);
+};
+HackerEarth::HackerEarth(){
+	operation = 1;
+}
+
+int comp(const void*a, const void*b){
+	return (*(int*)a-*(int*)b);
+}
+
+void HackerEarth::quickSort(int arr[],int n){
+	qsort(arr,n,sizeof(int),comp);
+}
+
+void HackerEarth::_conquer(int arr[], int start, int mid, int end){
+	int left_sa = start, right_sa = mid+1;
+	int merge[end-start+1], pos = 0;
+	
+	for(int i = start; i <= end; i++){
+		if(left_sa > mid)
+			merge[pos++] = arr[right_sa++];
+		else if(right_sa > end)
+			merge[pos++] = arr[left_sa++];
+		else if(abs(arr[left_sa]) > abs(arr[right_sa]))
+			merge[pos++] = arr[left_sa++];
+		else
+			merge[pos++] = arr[right_sa++];
+		
+	}
+	
+	for(int i = 0; i < pos; i++)
+		arr[start++] = merge[i];		
+}
+
+void HackerEarth::_divide(int arr[], int start, int end){
+
+	if((end-start) >= 1){
+		int mid =(start+end)/2;
+		
+		_divide(arr,start,mid);
+		_divide(arr,mid+1,end);
+		
+		_conquer(arr,start,mid,end);
+	}	
+
+}
+
+int main(){
+
+	int t; scanf("%d",&t);
+	int m, n;
+	HackerEarth he;
+	while(t--){
+		scanf("%d %d",&m,&n);
+		int boys[m], girls[n];
+		
+		for(int i = 0; i < m; i++) scanf("%d",&boys[i]);
+		for(int i = 0; i < n; i++) scanf("%d",&girls[i]);
+		
+		he.quickSort(boys,m);
+		he.quickSort(girls,n);
+		
+		int ctr = 0, _min = min(m,n), j = 0;
+
+		for(int i = 0; i < _min; i++) {
+			if(boys[i] > girls[j]){
+				ctr++; j++;
+			}
+		}
+		printf("%s\n",(ctr == m ? "YES":"NO"));
+	}
+
+	return 0;
+}
+remove_duplicate.cpp
+#include <iostream>
+#include <cstring>
+#include <map>
+
+using namespace std;
+
+/**
+	
+	Problem	:	Remove Duplicates
+	Link	:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/remove-duplicates-3/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+	
+**/
+
+int main(){
+
+	string str;
+	
+	while(getline(cin,str)){
+		map<char,int> freq;
+		for(int i = 0; i < str.length(); i++){
+			freq[str[i]]++;
+			if(freq[str[i]] == 1) cout << str[i];
+		}cout << endl;
+	}
+
+	return 0;
+}
+rest_21.cpp
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <sstream>
+/**
+	Problem		:	Rest in peace 21-1!
+	Link		:	https://www.hackerearth.com/practice/algorithms/searching/linear-search/practice-problems/algorithm/rest-in-peace-21-1/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	int t, n; scanf("%d",&t);
+	string str;
+	while(t--){
+		cin >> str;
+		int flag = 0, l_digit = str[str.length()-1]-48;
+		
+		if(atoi(str.c_str())%21 == 0) flag = 1;
+		else{
+			if(str.find("21") != string::npos) flag = 1;
+			else flag = 0;
+		}
+		
+		printf("%s\n",(flag == 1 ? "The streak is broken!" : "The streak lives still in our heart!"));
+	}
+	
+	
+	return 0;
+}
+save_patients.cpp
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+/**
+	Problem	:	Save Patients
+	Link	:	https://www.hackerearth.com/practice/algorithms/sorting/bubble-sort/practice-problems/algorithm/save-patients/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+int main(){
+	int t, safe = 0; cin >> t;
+	
+	int patient[t];
+	int vaccine[t];
+	for(int i = 0; i < t;i++) scanf("%d",&vaccine[i]);
+	for(int i = 0; i < t;i++) scanf("%d",&patient[i]);
+	sort(patient,patient+t);
+	sort(vaccine,vaccine+t);
+	for(int i = 0; i < t; i++){
+		if(vaccine[i] > patient[i]) safe++;
+	}
+	
+	printf("%s\n",(safe == t ? "Yes" : "No")); 
+	return 0;
+}
+secret_message.cpp
+#include <iostream>
+#include <cstdio>
+/**
+	Problem		:	Secret Message
+	Link		:	
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	int t, n, k; scanf("%d",&t);
+	while(t--){
+		scanf("%d %d",&n,&k);
+		int nloop = k;
+		for(; nloop > 26; nloop -= 26);
+
+		char word[n+1];
+		
+		scanf("%s",word); word[n] = '\0';
+		for(int i = 0; i < n; i++){
+			if(word[i] >= 65 && word[i] <= 90)
+				printf("%c",char((((word[i]+k)-65)%26)+65));
+			else if(word[i] >= 97 && word[i] <= 122)
+				printf("%c",char((((word[i]+k)-97)%26)+97));
+				//printf("%c",char(((word[i]-97)+k)%26)+97);
+			else if(word[i] >= 48 && word[i] <= 57)
+				printf("%c",char((((word[i]+k)-48)%10)+48));			
+			else{
+				printf("%c",word[i]);
+			}
+		}printf("\n");	
+	}
+
+	return 0;
+}
+solitary_string.cpp
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <set>
+#include <cmath>
+/**
+	Problem		:	Solitary String
+	Link		:	https://www.hackerearth.com/practice/algorithms/string-algorithm/string-searching/practice-problems/algorithm/solitary-string/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	
+	int t; scanf("%d",&t);
+	while(t--){
+		string solitary; cin >> solitary;
+		int max_solitary = 0, tmp = 0;
+		if(solitary.length() > 1){
+			set<char>sol_string;
+			for(int i = 0; i < solitary.length(); i++)
+				sol_string.insert(solitary[i]);
+			set<char>::iterator it = sol_string.begin();
+			max_solitary = abs(int(solitary.find_last_of(*it)-solitary.find_first_of(*it)));
+			it++;
+			for(; it != sol_string.end(); it++){
+				tmp = solitary.find_last_of(*it)-solitary.find_first_of(*it);
+				max_solitary = max(tmp,max_solitary);
+			}
+		}
+		
+		cout << max_solitary-1 << endl;
+	}
+
+	return 0;
+}
+sort_me.cpp
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <cstdlib>
+#include <map>
+#include <set>
+#include <cmath>
+
+using namespace std;
+
+/**
+	Problem		:	Sort me this way!
+	Link		:	https://www.hackerearth.com/practice/algorithms/sorting/quick-sort/practice-problems/algorithm/fredo-and-absolute-sorting-24/
+	Verdict		:	Accepted
+	
+**/
+
+#define type long int
+
+class HackerEarth{
+	int operation;
+	
+	public:
+	
+		HackerEarth();
+		void _conquer(type arr[], int start, int mid, int end);
+		void _divide(type arr[], int start, int end);
+		
+};
+HackerEarth::HackerEarth(){
+	operation = 1;
+}
+void HackerEarth::_conquer(type arr[], int start, int mid, int end){
+	int left_sa = start, right_sa = mid+1;
+	type merge[end-start+1], pos = 0;
+	
+	for(int i = start; i <= end; i++){
+		if(left_sa > mid)
+			merge[pos++] = arr[right_sa++];
+		else if(right_sa > end)
+			merge[pos++] = arr[left_sa++];
+		else if(abs(arr[left_sa]) < abs(arr[right_sa]))
+			merge[pos++] = arr[left_sa++];
+		else
+			merge[pos++] = arr[right_sa++];
+		
+	}
+	
+	for(int i = 0; i < pos; i++)
+		arr[start++] = merge[i];		
+}
+
+void HackerEarth::_divide(type arr[], int start, int end){
+
+	if((end-start) >= 1){
+		int mid =(start+end)/2;
+		
+		_divide(arr,start,mid);
+		_divide(arr,mid+1,end);
+		
+		_conquer(arr,start,mid,end);
+	}	
+
+}
+
+int main(){
+	int n; scanf("%d",&n);
+	type arr[n];
+	for(int i = 0; i < n; i++) scanf("%ld",&arr[i]);
+	HackerEarth he; he._divide(arr,0,n-1);
+	for(int i = 0; i < n; i++) printf("%ld%c",arr[i],(i < n-1 ? ' ' : ' '));
+	
+}
+sorted_string.cpp
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <vector>
+/**
+	Problem	:	Sorted String
+	Link	:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/sorted-string/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+using namespace std;
+bool comp(pair<char,int>&a, pair<char,int>&b){
+	if(a.second == b.second){
+		return a.first < b.first;
+	}
+	return a.second < b.second;
+}
+	
+int main(){
+
+	int t; scanf("%d",&t);
+	while(t--){
+		char word[105]; scanf("%s",word);
+		int n = strlen(word); word[n] = '\0';
+		
+		map<char,int> freq;
+		set<char> strings;
+		//sort(word,word+n);
+		for(int i = 0; i < n; i++){
+			freq[word[i]]++;
+			//strings.insert(word[i]);
+		}
+		vector<pair<char,int> >vec;
+		for(map<char,int>::iterator it = freq.begin(); it != freq.end(); it++){
+			vec.push_back(*it);
+		}
+		
+		sort(vec.begin(),vec.end(),comp);
+		
+		for(int i = 0; i < vec.size(); i++){
+			cout << string(vec[i].second,vec[i].first);
+		}cout << endl;
+		
+	}
+	return 0;
+}
+speed.cpp
+//#include <bits/stdc++.h>
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstring>
+#include <map>
+#include <set>
+#include <vector>
+#include <cstdio>
+#include <iostream>
+#include <stack>
+
+#define lli long long int
+
+/**
+	Problem		:	Speed
+	Link		:	https://www.hackerearth.com/practice/data-structures/arrays/1-d/practice-problems/algorithm/speed-7/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+
+using namespace std;
+
+int main(){
+	
+	lli t, n, x, ctr; cin >> t;
+
+	while(t--){
+		cin >> n;
+		vector<lli>speed;
+
+		for(lli i = 0; i < n; i++){ 
+			cin >> x; speed.push_back(x);
+		}
+		
+		lli pos, best = speed[0]; pos = ctr = 0;
+		
+		for(lli i = 1; i < n; i++){
+			if(speed[pos] < speed[i]) {pos = i;}
+			else if(best >= speed[i] && speed[pos] >= speed[i]){
+				ctr++;
+				best = speed[i];
+				pos = i;
+				
+			}
+		}
+		
+		cout << ctr+1 << endl;
+		
+	}
+	
+	return 0;
+}
+squareTrans.cpp
+#include <cstdio>
+//#include <set>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+/**
+  Problem : Square Transaction
+  Link    : 
+  Verdict : Accepted
+**/
+using namespace std;
+
+#define ll long long int
+ll _square[120000];
+
+ll locate(ll n, ll q){
+	
+	for(ll i = 0; i < n; i++){
+		if(_square[i] >= q) return i;
+	} 
+}
+
+int main(){
+	
+	ll t,q, query, total_target = 0; scanf("%lld",&t);
+	vector<ll>square(t);
+	 _square[0] = 0;
+	
+	for(ll i = 0; i <t; i++){
+		scanf("%lld",&square[i]);
+		_square[i+1] = _square[i]+square[i];
+	}
+		
+	scanf("%lld",&q);
+	
+	sort(_square,_square+(t+1));
+	
+	for(ll i = 0; i < q; i++){scanf("%lld",&query);
+		ll pos;
+		if(query > _square[t]) pos = -1; 
+		else pos = locate(t+1,query);
+		printf("%lld\n",pos);
+	}
+	
+	return 0;
+}
+string_sum.cpp
+#include <iostream>
+
+using namespace std;
+/**
+	Problem	: String Sum
+	Link	: https://www.hackerearth.com/practice/basic-programming/implementation/basics-of-implementation/practice-problems/algorithm/string-sum/
+	Verdict	: 
+	Author	: Wolf Syntax
+**/
+
+int main(){
+	string str;
+	
+	while(getline(cin,str)){
+		long int sum = 0;
+		for(int i = 0; i < str.length(); i++){
+			sum += (str[i]-96);
+		}
+		cout << sum << endl;
+	}
+	
+	return 0;
+}
+sumit_string.cpp
+#include <cstdio>
+#include <iostream>
+/**
+	Problem		:	Sumit's String
+	Link		:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/sumits-string/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+
+	int t; scanf("%d",&t); t++;
+	string sumit;
+	for(int i = 0; i < t; i++){
+		getline(cin,sumit);
+		if(i >= 1){
+			int flag = 1;
+			for(int i = 0; i < sumit.length()-1; i++){
+				if(sumit[i] == sumit[i+1]){
+					flag = 0; break;
+				} else {
+					if(sumit[i] == 'z' && sumit[i+1] == 'a');
+					if(sumit[i] == 'a' && sumit[i+1] == 'z');
+					if(sumit[i] > 97 && sumit[i+1] > 97){
+						if(sumit[i] == sumit[i+1]+1);
+						else if(sumit[i]+1 == sumit[i+1]);
+						else {
+							flag = 0; break;
+						}
+					}
+				}
+			}
+			if(flag == 1) printf("YES\n"); 
+			else printf("NO\n"); 
+		}
+		
+	}
+	return 0;
+}
+sumit_task.cpp
+//#include <cstdio>
+#include <map>
+#include <algorithm>
+#include <iostream>
+#include <cmath>
+//#define ABS(x) (x < 0 ? (-x) : (x))
+/*******************
+	
+	Problem	:	Sumit Task
+	Link	:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/sumits-task/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+		
+********************/
+using namespace std;
+
+int main(){
+
+	ios::sync_with_stdio(0);
+	
+	int t; cin >> t;
+	string str, ing, strng;
+	while(t--){
+		cin >> str; ing = str; sort(ing.begin(),ing.end());
+		strng = string(ing.rbegin(),ing.rend());
+		map<char,int>freq;
+//		cout << str << " " << ing << " " << strng << endl;
+		for(int i = 0; i < str.length(); i++){
+			freq[str[i]]++;
+		}
+		
+		char c;
+		if(freq['O'] > freq['Z']) c = 'Z';
+		else c = 'O';
+		
+		long long int pos = 0, loc = 0, dist = 0, rdist = 0, rpos = 0;
+		while((pos = str.find_first_of(c,pos)) != string::npos){
+			if((loc = ing.find_first_of(c,loc)) != string::npos){
+				dist += abs(pos-loc);
+				loc++;
+			}
+			
+			if((rpos = strng.find_first_of(c,rpos)) != string::npos){
+				rdist += abs(pos-rpos);
+				rpos++;
+			}
+			
+			pos++;
+		}
+		
+		cout << min(dist,rdist) << "\n";
+	}
+
+	return 0;
+}
+the_castle_gate.cpp
+#include <iostream>
+#include <cstdio>
+#include <set>
+#include <map>
+#include <vector>
+
+#define MAX_SIZE 2000
+#define pii pair<int,int>
+/**
+	Problem	:	The Castle Gate
+	Link	:	
+	Verdict	:	Accepted
+	Author	:	WolfSyntax
+**/
+using namespace std;
+
+int main(void){
+
+	int n,t, ctr = 0; 
+	vector<int> vec(2001);
+	
+	for(int k = 1; k <= 2000; k++){
+		ctr = 0;
+		for(int i = 1; i < k; i++){
+			for(int j = i+1; j <= k; j++){
+				
+				if((j^i) <= k) ctr++;
+			}
+		}
+		vec[k] = ctr;
+	}
+
+	scanf("%d",&t);
+	while(t-- && scanf("%d",&n))
+		printf("%d\n",vec[n]);
+	
+	return 0;
+}
+toggle_string.cpp
+#include <iostream>
+//Accepted
+using namespace std;
+/**
+  Problem : Toggle String
+  Link    : https://www.hackerearth.com/practice/basic-programming/input-output/basics-of-input-output/practice-problems/algorithm/modify-the-string/
+  Author  : Jayson Alpe (Wolf Syntax)
+**/
+
+int main(){
+	
+	string str;
+	while(getline(cin,str)){
+		
+		for(int i = 0; i < str.length(); i++){
+			if(str[i] >= 65 && str[i] <= 90){
+				str[i] = char((int(str[i]-64))+96);
+			}else if(str[i] >= 97 && str[i] <= 122){
+				str[i] = char((int(str[i]-96))+64);
+			}
+		}
+		cout << str << endl;
+	}
+	return 0;
+}
+twitter_trend.cpp
+    #include <iostream>
+    #include <set>
+    #include <map>
+    #include <vector>
+    #include <sstream>
+    #include <algorithm>
+    #include <cctype>
+     
+    using namespace std;
+    /**
+    	Problem		:	Twitter Trend
+    	Link		  :	https://www.hackerearth.com/practice/algorithms/string-algorithm/string-searching/practice-problems/algorithm/twitter-trends/
+    	Verdict   : Accepted
+      Author    : Wolf Syntax
+    **/
+     
+    bool comp(pair<string,int>& a, pair<string,int>& b){
+    	
+    	if(b.second == a.second){
+    		int b1 = (b.first).length(), a1 = (a.first).length(), mval = 0;
+    		mval = min(b1,a1);		
+    		for(int i = 0; i < mval; i++)
+    			if(b.first[i] < a.first[i]){
+    				swap(a.first,b.first);
+    				break;
+    			}else return a.first < b.first;
+    			
+    		return a.first < b.first;	
+    	}else return a.second > b.second;
+    }
+     
+    int main(){
+    	
+    	int n, cnt = 0; cin >> n; n++;
+    	string twit;
+    	map<string,int> twits;
+    	set<string> trend;
+    	
+    	while(n--){
+    		getline(cin,twit);
+    		stringstream out(twit);
+    		while(out >> twit){
+    			if(twit[0] == '#'){
+    				twits[twit]++;
+    				trend.insert(twit);
+    				
+    			}
+    		}
+    	}
+     
+    		
+    	vector<pair<string,int> >vps;
+    	for(map<string,int>::iterator it = twits.begin(); it != twits.end(); it++){
+    		vps.push_back(*it);
+    	}
+     
+    	sort(vps.begin(),vps.end(), comp);
+     
+    	for(int i = 0; i < 5; i++){
+    		cout << vps[i].first << endl;
+    	}
+    	return 0;
+    }
+two_string.cpp
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+//Accepted
+using namespace std;
+/**
+  Problem : Two String
+  Link    : https://www.hackerearth.com/practice/basic-programming/input-output/basics-of-input-output/practice-problems/algorithm/two-strings-4/
+  Author  : Jayson Alpe (Wolf Syntax)
+**/
+
+int main(){
+	
+	int t; scanf("%d",&t);
+	string str,ing;
+	while(t--){
+		cin >> str >> ing;
+		sort(str.begin(), str.end());
+		sort(ing.begin(), ing.end());
+		cout << (str == ing ? "YES\n" : "NO\n");
+	}
+	
+	return 0;
+}
+upup.cpp
+#include <iostream>
+#include <sstream>
+#include <cctype>
+/**
+	Problem	: 	UpUp
+	Link	:	https://www.hackerearth.com/practice/algorithms/string-algorithm/basics-of-string-manipulation/practice-problems/algorithm/upup/
+	Verdict	:	Accepted
+	Author	:	Wolf Syntax
+**/
+using namespace std;
+
+int main(){
+	string word, tmp;
+	
+	while(getline(cin,word)){
+		for(int i = 0; i < word.length()-1; i++){
+			if(i == 0 && isalpha(word[i]))
+				word[i] = toupper(word[i]);
+			if(word[i] == ' ' && isalpha(word[i+1])){
+				word[i+1] = toupper(word[i+1]);
+				i++;
+			}
+		}
+		cout << word << endl;
+	}
+}
+wiyn.cpp
+#include <iostream>
+#include <cstdio>
+
+using namespace std;
+/**
+	Problem		:	What is your number?
+	Link		:	https://www.hackerearth.com/practice/algorithms/string-algorithm/string-searching/practice-problems/algorithm/what-is-your-mobile-number/
+	Verdict		:	Accepted
+	Author		:	Wolf Syntax
+**/
+int main(){
+
+	int t; string str; cin >> t;
+	while(t--){
+		cin >> str;
+		if(str.find_first_of(".ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") == string::npos){
+			if(str[0] != '0' && str.length() == 10) cout << "YES\n";
+			else cout << "NO\n";
+		}else {
+			cout << "NO\n";
+		}
+
+		
+	}
+
+	return 0;
+}
