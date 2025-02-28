@@ -1,1 +1,1 @@
-hackerrank problem solutions
+Hackerearth Problem Solutions
